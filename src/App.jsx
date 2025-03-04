@@ -6,8 +6,10 @@ import Dashboard from "./pages/dasboard/Dashboard";
 import { UserLayout } from "./components/layouts/UserLayout";
 import { SignInPage } from "./pages/auth/SignInPage";
 import SignUpPage from "./pages/auth/SignUpPage";
+import PizzaPage from "./pages/PizzaPage";
 
 function App() {
+  // return <PizzaPage />;
   return (
     <>
       <Routes>

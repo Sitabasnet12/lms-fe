@@ -5,48 +5,38 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import { CustomCard } from "../../components/customCard/CustomCard";
 // import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
+import { getAllBookAction } from "../../features/books/bookAction.js";
 
 const Home = () => {
   // const { books } = useSelector((state) => state.bookInfo);
+  const dispatch = useDispatch();
 
-  const [searchedBooks, setSearchBooks] = useState([
-    {
-      status: "active",
-      title: "Mastering CSS",
-      author: "CSS GURU",
-      isbn: "12345668",
-      publishedYear: 1995,
-      thumbnail: "https://randomuser.me/api/portraits/women/44.jpg",
-      description: "Advanced techniques in CSS.",
-      isAvailable: true,
-      expectedAvailable: null,
-      createdAt: "2024-11-27T00:41:30.357Z",
-      updatedAt: "2024-11-27T00:41:30.357Z",
-    },
-    {
-      status: "active",
-      title: "Mastering CSS",
-      author: "CSS GURU",
-      isbn: "12345668",
-      publishedYear: 1995,
-      thumbnail: "https://randomuser.me/api/portraits/women/44.jpg",
-      description: "Advanced techniques in CSS.",
-      isAvailable: true,
-      expectedAvailable: null,
-      createdAt: "2024-11-27T00:41:30.357Z",
-      updatedAt: "2024-11-27T00:41:30.357Z",
-    },
-  ]);
+  const bookStore = useSelector((state) => state.bookInfo);
 
-  // useEffect(() => {
-  //   setSearchBooks(books);
-  // }, [books]);
+  const [searchedBooks, setSearchBooks] = useState([]);
+
+  //
+  const fetchBooks = () => {
+    dispatch(getAllBookAction());
+  };
+
+  //call the fetch book action
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  //trigger update of the search book when bookstore.books is updated
+  useEffect(() => {
+    setSearchBooks(bookStore.books || []);
+  }, [bookStore.books]);
 
   const handleOnSearch = (e) => {
     const { value } = e.target;
 
     setSearchBooks(
-      books.filter(({ title }) =>
+      bookStore.books.filter(({ title }) =>
         title.toLowerCase().includes(value.toLowerCase())
       )
     );
